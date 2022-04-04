@@ -31,8 +31,14 @@ cd ..
 % keyboard
 
 disp('SIM native')
-run_simulation(ocp, N)
+results = run_simulation(ocp, N);
 
 % keyboard
 disp('SIM templated')
-run_simulation(t_ocp, N)
+t_results = run_simulation(t_ocp, N);
+
+semilogy(abs(results.u - t_results.u))
+disp(['diff control trajs:', num2str(norm(results.u - t_results.u))])
+% norm(results.u - t_results.u)
+
+
