@@ -1,4 +1,4 @@
-function run_simulation(ocp, N)
+function [results] = run_simulation(ocp, N)
 
 
 disp('run_simulation: using solver')
@@ -20,19 +20,19 @@ ocp.set('init_u', zeros(1, N));
 ocp.set('init_pi', zeros(3, N));
 
 for i = 1:Tsim/Ts+1
-% for i = 1:200
-    disp(['sim instance ', num2str(i)]);
     % Set parameters
     s_max(i) = 200; %[m]
     v_ref(i) = 36/3.6; %[m/s]
     ocp.set('p', [s_max(i);v_ref(i)]);
+% %     for j = 0:N
+% %     ocp.set('p', [s_max(i);v_ref(i)], j);
+% %     end
     
     % set initial condition
     ocp.set('constr_x0', x0);
 
     % solve
     ocp.solve();
-    ocp.print()
 
     % computation time
     t_comp(i) = ocp.get('time_tot');
@@ -40,6 +40,7 @@ for i = 1:Tsim/Ts+1
     status(i) = ocp.get('status');
     if status(i)
         warning('Solver failed with error status %d at iteration %d \n', status(i),i);
+        ocp.print()
     end
 
     % get solution
@@ -97,4 +98,6 @@ disp(['Solver failed ' num2str(sum(status ~= 0)) ' times out of ' num2str(i)]); 
 % grid on
 % legend('status')
 % keyboard
+
+results.u = U_log;
 end
