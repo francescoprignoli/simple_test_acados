@@ -12,7 +12,7 @@ regularize_method = 'no_regularize';
 %regularize_method = 'convexify';
 % integrator typs
 sim_method = 'erk'; % erk, irk, irk_gnsf
-
+tol = 1e-7;
 
 %% acados ocp set opts
 ocp_opts = acados_ocp_opts();
@@ -31,14 +31,17 @@ ocp_opts.set('qp_solver', qp_solver);
 ocp_opts.set('regularize_method', regularize_method);
 if (strcmp(qp_solver, 'partial_condensing_hpipm'))
 	ocp_opts.set('qp_solver_cond_N', qp_solver_cond_N);
-% 	ocp_opts.set('qp_solver_cond_ric_alg', qp_solver_cond_ric_alg);
-% 	ocp_opts.set('qp_solver_ric_alg', qp_solver_ric_alg);
-% 	ocp_opts.set('qp_solver_warm_start', qp_solver_warm_start);
+% 	ocp_opts.set('qp_solver_cond_ric_alg', 1);
+% 	ocp_opts.set('qp_solver_ric_alg', 1);
+	ocp_opts.set('qp_solver_warm_start', 0);
     ocp_opts.set('qp_solver_iter_max',100);
 end
-ocp_opts.set('nlp_solver_tol_stat', 1e-4);
-ocp_opts.set('nlp_solver_tol_eq', 1e-4);
-ocp_opts.set('nlp_solver_tol_ineq', 1e-4);
-ocp_opts.set('nlp_solver_tol_comp', 1e-4);
+% ocp_opts.set('nlp_solver_tol_stat', tol);
+% ocp_opts.set('nlp_solver_tol_eq', tol);
+% ocp_opts.set('nlp_solver_tol_ineq', tol);
+% ocp_opts.set('nlp_solver_tol_comp', tol);
+ocp_opts.set('print_level', 0);
 % ... see ocp_opts.opts_struct to see what other fields can be set
 ocp_opts.set('output_dir',[pwd '/build']);
+
+% ocp_opts.set('parameter_values', [200, 36/3.6]);

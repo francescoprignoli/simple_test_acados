@@ -32,6 +32,7 @@
 # POSSIBILITY OF SUCH DAMAGE.;
 #
 
+## use this file to run the tests on the local machine
 
 if [[ "${BASH_SOURCE[0]}" != "${0}" ]]
 then
@@ -43,11 +44,11 @@ else
 	exit
 fi
 
-# check that this file is run
+# to be able to also run the other examples
 export ENV_RUN=true
 
 # if acados folder not specified assume parent of the folder of the single examples
-ACADOS_INSTALL_DIR=${ACADOS_INSTALL_DIR:-"your_path"}
+ACADOS_INSTALL_DIR=${ACADOS_INSTALL_DIR:-"$(pwd)/../../.."}
 export ACADOS_INSTALL_DIR
 echo
 echo "ACADOS_INSTALL_DIR=$ACADOS_INSTALL_DIR"
@@ -57,7 +58,6 @@ echo "ACADOS_INSTALL_DIR=$ACADOS_INSTALL_DIR"
 export MATLABPATH=$MATLABPATH:$ACADOS_INSTALL_DIR/external/casadi-matlab/
 export MATLABPATH=$MATLABPATH:$ACADOS_INSTALL_DIR/interfaces/acados_matlab_octave/
 export MATLABPATH=$MATLABPATH:$ACADOS_INSTALL_DIR/interfaces/acados_matlab_octave/acados_template_mex/
-
 echo
 echo "MATLABPATH=$MATLABPATH"
 # Octave case
@@ -73,7 +73,7 @@ echo "OCTAVE_PATH=$OCTAVE_PATH"
 # if model folder not specified assume this folder
 MODEL_FOLDER=${MODEL_FOLDER:-"./build"}
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ACADOS_INSTALL_DIR/lib:$MODEL_FOLDER
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ACADOS_INSTALL_DIR/interfaces/acados_template/tera_renderer/t_renderer/target/release
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:./
+export LD_RUN_PATH="$(pwd)"/c_generated_code
+
 echo
 echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH"
